@@ -1,0 +1,14 @@
+{
+	"http":{
+		"port":3000
+	},
+	"database":{
+		"host":"localhost",
+		"port":5432,
+		"db_name":"notes_app",
+		"username":"notes_app",
+		"password":"notes_app",
+		"dialect":"postgres"
+		
+	}
+}

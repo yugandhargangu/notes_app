@@ -1,0 +1,43 @@
+extends index_layout
+
+block content
+  div.form-box(ng-app="signUpApp", ng-controller="signupController")
+    div.form-box-part.well
+      // form start
+      form#signupForm.form-signin(name='signupForm',method="POST",novalidate)
+        // heading
+        h2.form-signin-heading Sign up Here:
+        hr
+        // fullname input
+        div.form-group
+          label Full name
+          input#inputFullname.form-control(type="text", placeholder="Full name",autofocus,name="full_name",maxlength="100",ng-model="fullName",ng-required="true")
+          div.label.label-danger(ng-show="signupForm.full_name.$error.required") Fullname is requeired field.
+          div.label.label-success(ng-show="signupForm.full_name.$valid") Fullname is valid.
+        // email input
+        div.form-group
+          label Email Id
+          input#inputEmail.form-control(type="email", placeholder="Email address",name="email_id",maxlength="100",ng-model="emailId",ng-required="true")
+          div.label.label-danger(ng-show="signupForm.email_id.$error.required") Email Id is required field.
+          div.label.label-danger(ng-show="!signupForm.email_id.$error.required && signupForm.email_id.$invalid") Please input a valid Email Id.
+          div.label.label-success(ng-show="signupForm.email_id.$valid") Email Id is valid.
+        // password input
+        div.form-group
+          label Password
+          input#inputPassword.form-control(type="password",placeholder="Password",name="password",maxlength="20",ng-model="password",ng-required="true",ng-minlength="6")
+          div.label.label-danger(ng-show="signupForm.password.$error.required") Password is required field.
+          div.label.label-danger(ng-show="signupForm.password.$error.minlength") Password is too short.
+          div.label.label-success(ng-show="signupForm.password.$valid") Password is valid.
+        // confirm password input
+        div.form-group
+          label Conform password
+          input#confirmPassword.form-control(type="password",placeholder="Confirm Password",name="confirm_password",maxlength="20",ng-model="confirmPassword",ng-required="true",ng-match="password")
+          div.label.label-danger(ng-show="signupForm.confirm_password.$error.required") Confirm Password is required field.
+          div.label.label-danger(data-ng-show="!signupForm.password.$error.required && !signupForm.confirm_password.$error.required && signupForm.confirm_password.$error.match") Password and Confirm Password is not matching.
+          div.label.label-success(data-ng-show="signupForm.confirm_password.$valid") Confirm Password is valid.
+        // singin button
+        button.btn.btn-lg.btn-primary.btn-block(type="button",ng-disabled="signupForm.$invalid",ng-click="processForm()") Sign up
+          i.glyphicon.glyphicon-chevron-right
+      // form end
+
+  script(type='text/javascript',src="/javascripts/signup.js")

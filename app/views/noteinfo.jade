@@ -1,0 +1,21 @@
+extends notes_layout
+
+block content
+  div.container
+    div.row
+      div.col-lg-12
+        div.panel.panel-primary
+          div.panel-heading
+            h3 Note Information
+          div.panel-body
+            form(action='#')
+              div.form-group
+                label Subject
+                input.form-control(type='text')
+              div.form-group
+                label Note
+                textarea.form-control(rows='15', cols='100', style='resize: none;')
+          div.panel-footer(style='text-align: right;')
+            button.btn.btn-danger Clear Note
+            | &nbsp;
+            button.btn.btn-primary Save Note

@@ -1,0 +1,33 @@
+extends index_layout
+
+block content
+  div.form-box(ng-app="")
+    div.form-box-part.well
+      // form start
+      form.form-signin(name='signinForm',novalidate="")
+        // heading
+        h2.form-signin-heading Sign in Here:
+        hr
+        // email input
+        div.form-group
+          span(ng-show="signinForm.inputEmail.$touched && signinForm.inputEmail.$invalid",style='color:red;') Email Id is invalid.
+          div.input-group
+            span.input-group-addon
+              b @
+            input#inputEmail.form-control(type="email", placeholder="Email address",required,autofocus,name="inputEmail")
+        // password input
+        div.form-group
+          span(ng-show="signinForm.inputPassword.$touched && signinForm.inputPassword.$invalid",style='color:red;') Password is required.
+          div.input-group
+            span.input-group-addon
+              i.glyphicon.glyphicon-lock
+            input#inputPassword.form-control(type="password",placeholder="Password",required,name="inputPassword")
+        // remember me
+        div.checkbox
+          label
+            input(type="checkbox",value="remember-me")
+            | &nbsp;Remember me
+        // singin button
+        button.btn.btn-lg.btn-primary.btn-block(type="submit") Sign in
+          i.glyphicon.glyphicon-chevron-right
+      // form end

@@ -1,0 +1,79 @@
+extends notes_layout
+
+block content
+  // container start
+  div.container(ng-app="notesApp")
+    div.row
+      div.col-lg-12
+        div.panel.panel-primary
+          // panel head start
+          div.panel-heading
+            h3 Notes
+          // panel head end
+
+          // pane body start
+          div.panel-body(ng-controller="notesList")
+            // notes top bar start
+            div.row(style="margin: 1em; text-align: right;")
+              button.btn.btn-danger(type="button",aria-label="Delete")
+                span.glyphicon.glyphicon-trash(aria-hidden="true")
+                | &nbsp;Delete
+            // notes top bar end
+
+            // notes list start
+            div.row(style="margin: 1em;")
+              div.col-md-12.note-item(ng-repeat="note in notes")
+                div.col-md-1(style="text-align: center;")
+                  input(type="checkbox")
+                div.col-md-10
+                  div
+                    b {{note.subject}}
+                  div {{note.data}}
+                div.col-md-1
+                  div {{note.date}}
+                div(style="text-align: center;")
+                  button.btn.btn-info(type="button",aria-label="Left Align")
+                    span.glyphicon.glyphicon-edit(aria-hidden="true")
+            // notes list end
+
+            // notes navigation start
+            div.row(style="margin: 1em;")
+              div.col-md-12
+                nav(aria-label="Pages")
+                  ul.pager
+                    li.previous
+                      a(href="#")
+                        span(aria-hidden="true") &larr;
+                        | Older
+                    li.next
+                      a(href="#") Newer 
+                        span(aria-hidden="true") &rarr;
+            // notes navigation end					    
+          // panel body end
+  // container end
+  
+  // java script start
+  script(type='text/javascript').
+    var notesApp = angular.module('notesApp', []);
+    var jsonData = {
+    "notes" : [
+    {
+    "subject" : "subject 1",
+    "date" : "2016-11-18 03:45PM",
+    "data" : "Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit."
+    },
+    {
+    "subject" : "subject 2",
+    "date" : "2016-11-18 03:46PM",
+    "data" : "Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit."
+    },
+    {
+    "subject" : "subject 3",
+    "date" : "2016-11-18 03:47PM",
+    "data" : "Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit."
+    } ]
+    };
+    notesApp.controller('notesList', function($scope) {
+    return $scope.notes = jsonData.notes;
+    });
+  // java script end

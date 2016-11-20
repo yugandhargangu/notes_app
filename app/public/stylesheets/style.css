@@ -1,0 +1,20 @@
+.form-box {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.form-box-part {
+	width: 360px;
+	padding: 1em 2em 1em 2em;
+	text-align: left;
+	vertical-align: top;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.note-item {
+	background-color: #f5f5f5;
+	border: 1px solid #ddd;
+	padding: 1em;
+}
