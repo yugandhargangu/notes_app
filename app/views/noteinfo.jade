@@ -1,21 +1,53 @@
 extends notes_layout
 
 block content
-  div.container
+  div.container(ng-app="noteInfoApp",ng-controller="noteInfoController")
+    // row start
     div.row
       div.col-lg-12
-        div.panel.panel-primary
-          div.panel-heading
-            h3 Note Information
-          div.panel-body
-            form(action='#')
+        // form start
+        form#noteInfoForm(action='/', name="noteInfoForm",method="post",novalidate)
+          input(type="hidden",name="id",value="#{id}",ng-model="id")
+          div.panel.panel-primary
+            div.panel-heading
+              h3 Note Information
+            div.panel-body
+              // subject field
               div.form-group
                 label Subject
-                input.form-control(type='text')
+                  span.label.label-danger(ng-show="noteInfoForm.subject.$error.required") Subject is required.
+                input.form-control(type='text',name="subject",maxlength="100",ng-init="subject = '#{subject}'",ng-model="subject",ng-required="true",ng-readonly="#{id} != ''")
+              // note field
               div.form-group
-                label Note
-                textarea.form-control(rows='15', cols='100', style='resize: none;')
-          div.panel-footer(style='text-align: right;')
-            button.btn.btn-danger Clear Note
-            | &nbsp;
-            button.btn.btn-primary Save Note
+                label Note 
+                  span.label.label-danger(ng-show="noteInfoForm.note.$error.required") Note is required.
+                  span.label.label-danger(ng-show="noteInfoForm.note.$error.maxlength") Note is too long.
+                textarea.form-control.no-resize(rows='15', cols='100',name="note",ng-init="note = '#{note}'",ng-model="note",ng-required="true",ng-maxlength="2000")
+            div.panel-footer(style='text-align: right;')
+              // button
+              button.btn.btn-danger(type="button",ng-click="clearNote()",ng-disabled="false") Clear Note
+              | &nbsp;
+              button.btn.btn-primary(type="button",ng-click="saveNote()",ng-disabled="noteInfoForm.$invalid") Save Note
+         // form end
+     // row end
+     // model start
+     div.modal.fade(tabindex="-1".role="dialog")
+       div.modal-dialog(role="document")
+         div.modal-content
+           // model header start
+           div.modal-header
+             button.close(type="button",data-dismiss="modal",aria-label="Close")
+               span(aria-hidden="true") &times;
+             h4.modal-title Modal title
+           // model header end
+           // model body start
+           div.modal-body
+             p One fine body&hellip;
+           // model body end
+           // model footer start
+           div.modal-footer
+             button.btn.btn-default(type="button",data-dismiss="modal") Close
+             button.btn.btn-primary(type="button") Save changes
+           // model footer end
+     // model end
+  script(type='text/javascript',src="/javascripts/noteinfo.js")

@@ -10,6 +10,7 @@
 
 var express = require('express');
 var sha1 = require('sha1');
+var dateFormat = require('dateformat');
 var router = express.Router();
 
 /*
@@ -36,7 +37,79 @@ router.get('/login.html', function(req, res, next) {
  * Login page URL. Validate user credentials.
  */
 router.post('/login.html', function(req, res, next) {
-	res.render('login');
+	// define short variables
+	// User model
+	var User = req.app.settings.models.User;
+	// Auth model
+	var Auth = req.app.settings.models.Auth;
+	// sequelize object
+	var sequelize = req.app.settings.models.sequelize;
+	// request form data
+	var form = req.body;
+	
+	// response objects
+	var failResponse = {code : 1,message : 'Invalid credentials. Please try again.'};
+	var successResponse = {code : 0};
+	
+	// find user
+	User.findOne({
+		attributes:['id','full_name','last_login_at','login_count'],
+		where:{
+			email_id:form.email_id,
+			active_flag:{$is:true}
+		}
+	}).then(function(result){
+		// check email id is present or not
+		if(result === null){
+			// send fail response
+			res.status(200).json(failResponse);
+			return;
+		}else{
+			// Email id found
+			var user = result.dataValues;
+			// find password
+			Auth.findOne({
+				attributes:['password'],
+				where:{
+					user_id:user.id,
+					active_flag:{$is:true}
+				}
+			}).then(function(result){
+				// auth result
+				if(result === null){
+					// fail response
+					res.status(200).json(failResponse);
+					return;
+				}if(sha1(form.password) === result.dataValues.password){
+					// success response
+					req.session.user = user.id;
+					req.session.last_login_at = dateFormat(user.last_login_at,'yyyy-mm-dd h:MM:ss TT');
+					req.session.full_name = user.full_name;
+					User.update({
+						login_count:user.login_count + 1,
+						last_login_at:new Date()
+					},{
+						where:{
+							id:user.id
+						}
+					});
+					res.status(200).json(successResponse);
+					return;
+				}else{
+					// fail response
+					res.status(200).json(failResponse);
+					return;
+				}
+			});
+		}
+	}).catch(function(err){
+		// login error status
+		res.status(200).json({
+			code : -1,
+			message:'Error occurred. Please try after some time.'
+		});
+		return;
+	});
 });
 
 /*

@@ -2,38 +2,54 @@ extends notes_layout
 
 block content
   // container start
-  div.container(ng-app="notesApp")
+  div.container(ng-app="notesApp",ng-controller="notesList")
     div.row
       div.col-lg-12
         div.panel.panel-primary
           // panel head start
           div.panel-heading
-            h3 Notes
+            b Notes
+            div.inline-block(style="float:right",ng-show="count > 0") {{page}} / {{pages}} pages
           // panel head end
 
           // pane body start
-          div.panel-body(ng-controller="notesList")
+          div.panel-body
             // notes top bar start
-            div.row(style="margin: 1em; text-align: right;")
-              button.btn.btn-danger(type="button",aria-label="Delete")
-                span.glyphicon.glyphicon-trash(aria-hidden="true")
-                | &nbsp;Delete
+            div.row(style="margin: 1em;")
+              div.inline-block
+                select#perPage.form-control.inline-block(ng-model="per_page",ng-change="loadNotes(0, true);",style="width:80px;",convert-to-number,ng-init="per_page = perPageOptions[0]",ng-options="perPage for perPage in perPageOptions")
+                | &nbsp;notes per page.
             // notes top bar end
 
             // notes list start
             div.row(style="margin: 1em;")
-              div.col-md-12.note-item(ng-repeat="note in notes")
-                div.col-md-1(style="text-align: center;")
-                  input(type="checkbox")
-                div.col-md-10
-                  div
-                    b {{note.subject}}
-                  div {{note.data}}
-                div.col-md-1
-                  div {{note.date}}
-                div(style="text-align: center;")
-                  button.btn.btn-info(type="button",aria-label="Left Align")
-                    span.glyphicon.glyphicon-edit(aria-hidden="true")
+              div.col-md-12
+                div.col-md-12.note-item
+                  div.col-md-10(style="text-align: center;")
+                    b Note
+                   div.col-md-1(style="text-align: center;")
+                    b Date
+                  div.col-md-1(style="text-align: center;")
+                    b Action
+              div.col-md-12.note-items(style="padding-right:0px;")
+                div.col-md-12.note-item(ng-repeat="note in notes")
+                  div.col-md-10
+                    div.ellipsis-text
+                      b {{note.subject}}
+                    div.ellipsis-text {{note.data}}
+                  div.col-md-1
+                    div {{getNoteDate(note.date)}}
+                    div {{getNoteTime(note.date)}}
+                  div.col-md-1(style="text-align: center;")
+                      button.btn.btn-info.btn-small(type="button",aria-label="View",ng-click="viewNote(note.id)")
+                        span.glyphicon.glyphicon-eye(aria-hidden="true")
+                        | &nbsp;View
+                      button.btn.btn-info.btn-small(type="button",aria-label="Edit",ng-click="editNote(note.id)")
+                        span.glyphicon.glyphicon-edit(aria-hidden="true")
+                        | &nbsp;Edit
+                      button.btn.btn-danger.btn-small(type="button",aria-label="Delete",ng-click="deleteNote(note.id)")
+                        span.glyphicon.glyphicon-trash(aria-hidden="true")
+                        | &nbsp;Delete
             // notes list end
 
             // notes navigation start
@@ -41,39 +57,15 @@ block content
               div.col-md-12
                 nav(aria-label="Pages")
                   ul.pager
-                    li.previous
-                      a(href="#")
+                    li.previous(ng-show="page > 1")
+                      a(href="javaScript:;",ng-click="loadNotes(-1, false);")
                         span(aria-hidden="true") &larr;
                         | Older
-                    li.next
-                      a(href="#") Newer 
+                    li.next(ng-show="page < pages")
+                      a(href="javaScript:;",ng-click="loadNotes(1, false);") Newer 
                         span(aria-hidden="true") &rarr;
             // notes navigation end					    
           // panel body end
   // container end
   
-  // java script start
-  script(type='text/javascript').
-    var notesApp = angular.module('notesApp', []);
-    var jsonData = {
-    "notes" : [
-    {
-    "subject" : "subject 1",
-    "date" : "2016-11-18 03:45PM",
-    "data" : "Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit."
-    },
-    {
-    "subject" : "subject 2",
-    "date" : "2016-11-18 03:46PM",
-    "data" : "Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit."
-    },
-    {
-    "subject" : "subject 3",
-    "date" : "2016-11-18 03:47PM",
-    "data" : "Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit."
-    } ]
-    };
-    notesApp.controller('notesList', function($scope) {
-    return $scope.notes = jsonData.notes;
-    });
-  // java script end
+  script(type='text/javascript',src="/javascripts/notes.js")

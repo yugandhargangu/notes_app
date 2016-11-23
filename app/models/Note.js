@@ -22,7 +22,7 @@ module.exports = function(sequelize) {
 			allowNull : false
 		},
 		notes : {
-			type : Sequelize.STRING(1000),
+			type : Sequelize.TEXT,
 			allowNull : false
 		},
 		version_no : {
@@ -40,5 +40,7 @@ module.exports = function(sequelize) {
 			allowNull : false,
 			defaultValue : Sequelize.NOW
 		}
+	}, {
+		timestamps : false,
 	});
 }

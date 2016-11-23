@@ -1,0 +1,25 @@
+extends notes_layout
+
+block content
+  div.container
+    // row start
+    div.row
+      div.col-lg-12
+          div.panel.panel-primary
+            div.panel-heading
+              h3 Note Information
+            div.panel-body
+              div.well
+                // subject
+                div
+                  label Subject:
+                  div.col-md-12 #{subject}
+                // note
+                div
+                  label Note:
+                  div.col-md-12 #{note}
+            div.panel-footer(style='text-align: right;')
+              // button
+              a.btn.btn-primary(href="/notes/edit.html?id=#{id}") Edit Note
+         // form end
+     // row end

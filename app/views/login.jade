@@ -1,33 +1,30 @@
 extends index_layout
 
 block content
-  div.form-box(ng-app="")
+  div.form-box(ng-app="loginApp",ng-controller="loginController")
     div.form-box-part.well
       // form start
-      form.form-signin(name='signinForm',novalidate="")
+      form#loginForm.form-signin(name='loginForm',novalidate)
         // heading
         h2.form-signin-heading Sign in Here:
         hr
         // email input
         div.form-group
-          span(ng-show="signinForm.inputEmail.$touched && signinForm.inputEmail.$invalid",style='color:red;') Email Id is invalid.
           div.input-group
             span.input-group-addon
               b @
-            input#inputEmail.form-control(type="email", placeholder="Email address",required,autofocus,name="inputEmail")
+            input#inputEmail.form-control(type="email", placeholder="Email address",autofocus,name="email_id",maxlength="100",ng-required="true",ng-model="email_id")
+          div.label.label-danger(ng-show="loginForm.email_id.$error.required") Email Id is required.
+          div.label.label-danger(ng-show="!loginForm.email_id.$error.required && loginForm.email_id.$invalid") Please input a valid Email Id.
         // password input
         div.form-group
-          span(ng-show="signinForm.inputPassword.$touched && signinForm.inputPassword.$invalid",style='color:red;') Password is required.
           div.input-group
             span.input-group-addon
               i.glyphicon.glyphicon-lock
-            input#inputPassword.form-control(type="password",placeholder="Password",required,name="inputPassword")
-        // remember me
-        div.checkbox
-          label
-            input(type="checkbox",value="remember-me")
-            | &nbsp;Remember me
+            input#inputPassword.form-control(type="password",placeholder="Password",name="password",maxlength="20",ng-required="true",ng-model="password")
+          div.label.label-danger(ng-show="loginForm.password.$error.required") Password is required.
         // singin button
-        button.btn.btn-lg.btn-primary.btn-block(type="submit") Sign in
+        button.btn.btn-lg.btn-primary.btn-block(type="button",ng-disabled="loginForm.$invalid",ng-click="processForm()") Login
           i.glyphicon.glyphicon-chevron-right
       // form end
+  script(type='text/javascript',src="/javascripts/login.js")

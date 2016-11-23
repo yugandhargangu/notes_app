@@ -10,12 +10,11 @@ module.exports = function(grunt) {
 			files : [ 'test/**/*.js' ]
 		},
 		lint : {
-			files : [ 'grunt.js', 'app.js', 'routes/**/*.js', 'models/**/*.js', 'test/**/*.js']
+			files : [ 'Gruntfile.js', 'app.js', 'routes/**/*.js', 'models/**/*.js', 'test/**/*.js']
 		},
-		watch : {
-			files : '<config:lint.files>',
-			tasks : 'default'
-		},
+		gruntfile: {
+		        files: ['Gruntfile.js']
+	        },
 		jshint : {
 			options : {
 				curly : true,
@@ -41,6 +40,5 @@ module.exports = function(grunt) {
 	});
 
 	// Default task.
-	grunt.registerTask('default', 'lint test');
-
+	grunt.registerTask('default','test') ;
 };

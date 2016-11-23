@@ -1,4 +1,11 @@
+/**
+ * @author Yugandhar Gangu
+ * 
+ * To include in signup.jade view
+ */
 var signUpApp = angular.module('signUpApp', []);
+
+// directive to match passwords
 signUpApp.directive('ngMatch',[ function() {
 	return {
 		require : 'ngModel',
@@ -11,8 +18,11 @@ signUpApp.directive('ngMatch',[ function() {
 			});
 		}
 	};
-}]);
+} ]);
+
+// controller
 signUpApp.controller('signupController', function($scope, $http) {
+	// signup ajax call
 	$scope.processForm = function() {
 		$scope.formData = $('#signupForm').serialize();
 		$http({
@@ -25,8 +35,9 @@ signUpApp.controller('signupController', function($scope, $http) {
 		}).then(function(response) {
 			var data = response.data;
 			console.log(data);
-			if (data.code == 0) {
-				window.location.href = '/notes/';
+			if (data.code == 0) { // success
+				alert('Registration successful. Please login.');
+				window.location.href = '/login.html';
 			} else {
 				alert(data.message);
 			}

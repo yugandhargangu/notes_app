@@ -43,5 +43,7 @@ module.exports = function(sequelize) {
 			type : Sequelize.DATE,
 			allowNull : true
 		}
+	}, {
+		timestamps : false,
 	});
 }

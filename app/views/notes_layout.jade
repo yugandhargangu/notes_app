@@ -23,23 +23,23 @@ html
           a.navbar-brand(href='/notes') Notes Application
         div#bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav
-            li.active
+            li
               a(href="/notes") Notes
                 span.sr-only (current)
             li
-              a(href="add.html") Add Note
+              a(href="/notes/add.html") Add Note
           ul.nav.navbar-nav.navbar-right
             li
-              a(href="javascript:;",style="color: #337ab7;") Last login at: 2016-11-08 04:50PM
+              a(href="javascript:;",style="color: #337ab7;") Last login at: #{session.last_login_at}
             li.dropdown
               a.dropdown-toggle(href="#",data-toggle="dropdown",role="button",aria-haspopup="true",aria-expanded="false")
-                b Yugandhar Gangu
+                b #{session.full_name} &nbsp;
                 span.caret
               ul.dropdown-menu
                 li
-                  a(href="changepassword.html") Change Password
+                  a(href="/notes/changepassword.html") Change Password
                 li.divider(role="separator")
                 li
-                  a(href="#") Logout
+                  a(href="/notes/logout.html") Logout
      // navrbar end
     block content
